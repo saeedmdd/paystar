@@ -20,7 +20,9 @@ return new class extends Migration {
             $table->foreignIdFor(Order::class);
             $table->string("ref_number");
             $table->string("token");
-            $table->string("transaction_id");
+            $table->string("transaction_id")->nullable();
+            $table->string("card_number")->nullable();
+            $table->string("tracking_code")->nullable();
             $table->string("provider")->default("paystar");
             $table->enum("status",["SUCCESSFUL", "FAILED", "PENDING"])->default("PENDING");
             $table->timestamps();

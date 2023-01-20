@@ -20,7 +20,6 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Address::class);
             $table->foreignIdFor(Product::class);
             $table->foreignIdFor(Order::class);
             $table->string("quantity");

@@ -83,8 +83,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @param int|null $page
      * @return LengthAwarePaginator
      */
-    public function paginate(array|string $columns = ["*"], array|string $relations = [], int $paginate = 15, string $pageName = 'page', int|null $page = null): LengthAwarePaginator
+    public function paginate(array|string $columns = ["*"], array|string $relations = [], int $paginate = 15, string $pageName = 'page', int|null $page = null, string $orderedColumn = null, string $direction = "asc"): LengthAwarePaginator
     {
-        return $this->setBuilder($relations)->paginate($paginate, $columns, $pageName, $page);
+        $builder = $this->setBuilder($relations);
+        return !is_null($orderedColumn) ? $builder->orderBy($orderedColumn, $direction)->paginate($paginate, $columns, $pageName, $page) : $builder->paginate($paginate, $columns, $pageName, $page);
     }
 }

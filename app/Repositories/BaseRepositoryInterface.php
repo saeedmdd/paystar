@@ -68,7 +68,9 @@ interface BaseRepositoryInterface
         array|string $relations = [],
         int          $paginate = 15,
         string       $pageName = 'page',
-        int|null     $page = null
+        int|null     $page = null,
+        string $orderedColumn = null,
+        string $direction = "asc"
     ): LengthAwarePaginator;
 
 }
