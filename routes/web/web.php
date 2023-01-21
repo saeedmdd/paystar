@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-//    return redirect(url("https://core.paystar.ir/api/pardakht/payment?token=a4pBWJ5AMqniPdxSUUyvoVlrgUAf6BdQArXnbdLMtuZkpD2azaaoqNdKOEdh", ["token" => ""])) ;
     return view('welcome');
 });
 

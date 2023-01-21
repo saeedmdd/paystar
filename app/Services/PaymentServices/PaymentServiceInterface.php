@@ -2,6 +2,8 @@
 
 namespace App\Services\PaymentServices;
 
+use Illuminate\Support\Collection;
+
 interface PaymentServiceInterface
 {
     public function setBaseUrl(string $baseUrl);
@@ -11,7 +13,7 @@ interface PaymentServiceInterface
 
     public function setCallback(string $callback);
 
-    public function create(float $amount, int $orderId);
+    public function create(float $amount, int $orderId): Collection;
 
     public function generatePaymentUrl(string $token);
 }

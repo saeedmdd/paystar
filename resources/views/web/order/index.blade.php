@@ -25,6 +25,7 @@
                     <p class="dark:text-white">Price: {{number_format($order->final_price)}}</p>
                     <form action="{{route("order.pay", $order->id)}}" method="post">
                         @csrf
+                        <input type="number" name="card_number" placeholder="Card Number" value="{{auth()->user()->cardNumbers()->first()?->number ?? null}}">
                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Buy</button>
                     </form>
                 </div>

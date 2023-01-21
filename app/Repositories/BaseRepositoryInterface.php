@@ -13,9 +13,10 @@ interface BaseRepositoryInterface
      * Get all records from the given model
      * @param array|string $columns
      * @param array|string $relations
+     * @param array $conditions
      * @return Collection
      */
-    public function getAll(array|string $columns = ["*"], array|string $relations = []): Collection;
+    public function getAll(array|string $columns = ["*"], array|string $relations = [], array $conditions = []): Collection;
 
     /**
      * Find a model record from database or returns 404
@@ -61,6 +62,9 @@ interface BaseRepositoryInterface
      * @param int $paginate
      * @param string $pageName
      * @param int|null $page
+     * @param string|null $orderedColumn
+     * @param string $direction
+     * @param array $conditions
      * @return LengthAwarePaginator
      */
     public function paginate(
@@ -70,7 +74,21 @@ interface BaseRepositoryInterface
         string       $pageName = 'page',
         int|null     $page = null,
         string $orderedColumn = null,
-        string $direction = "asc"
+        string $direction = "asc",
+        array $conditions = []
     ): LengthAwarePaginator;
 
+    /**
+     * @param array $conditions
+     * @param array|string $columns
+     * @param array|string $relations
+     * @param array|string $appends
+     * @return Model|null
+     */
+    public function findByColumns(
+        array $conditions,
+        array|string $columns = ["*"],
+        array|string $relations = [],
+        array|string $appends = []
+    ): ?Model;
 }

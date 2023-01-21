@@ -12,15 +12,15 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Order::class);
-            $table->string("ref_number");
+            $table->string("ref_number")->index();
             $table->string("token");
-            $table->string("transaction_id")->nullable();
+            $table->string("transaction_id")->nullable()->index();
             $table->string("card_number")->nullable();
             $table->string("tracking_code")->nullable();
             $table->string("provider")->default("paystar");
@@ -34,7 +34,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('transactions');
     }

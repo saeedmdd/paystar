@@ -3,6 +3,7 @@
 namespace App\Services\PaymentServices\PayStar;
 
 use App\Services\PaymentServices\PaymentServiceInterface;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class PaystarPaymentService implements PaymentServiceInterface
@@ -20,27 +21,48 @@ class PaystarPaymentService implements PaymentServiceInterface
         $this->setCallback(config("payment.paystar.callback"));
     }
 
-    public function setBaseUrl(string $baseUrl)
+    /**
+     * @param string $baseUrl
+     * @return void
+     */
+    public function setBaseUrl(string $baseUrl): void
     {
         $this->baseUrl = $baseUrl;
     }
 
-    public function setGateway(string $gatewayId)
+    /**
+     * @param string $gatewayId
+     * @return void
+     */
+    public function setGateway(string $gatewayId): void
     {
         $this->gatewayId = $gatewayId;
     }
 
-    public function setSignature(string $signature)
+    /**
+     * @param string $signature
+     * @return void
+     */
+    public function setSignature(string $signature): void
     {
         $this->signature = $signature;
     }
 
-    public function setCallback(string $callback)
+    /**
+     * @param string $callback
+     * @return void
+     */
+    public function setCallback(string $callback): void
     {
         $this->callback = $callback;
     }
 
-    public function create(float $amount, int $orderId)
+    /**
+     * @param float $amount
+     * @param int $orderId
+     * @return Collection
+     */
+    public function create(float $amount, int $orderId): Collection
     {
         return Http::withToken($this->gatewayId)->acceptJson()->post($this->baseUrl."create",[
             "amount" => $amount,
@@ -49,7 +71,11 @@ class PaystarPaymentService implements PaymentServiceInterface
         ])->collect();
     }
 
-    public function generatePaymentUrl(string $token)
+    /**
+     * @param string $token
+     * @return string
+     */
+    public function generatePaymentUrl(string $token): string
     {
         return $this->baseUrl."payment?token={$token}";
     }

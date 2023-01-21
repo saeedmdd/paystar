@@ -21,6 +21,18 @@
             @if (isset($header))
                 <header class="bg-white dark:bg-gray-800 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+
+                        <ul class="text-lg font-medium text-gray-900 dark:text-gray-100 mr-2 mb-4 flex flex-wrap justify-between">
+                            <li>
+                                <a href="{{route("product.index")}}">Products</a>
+                            </li>
+                            <li>
+                                <a href="{{route("order.index")}}">Orders</a>
+                            </li>
+                            <li>
+                                <a href="{{route("order.failed")}}">Failed Orders</a>
+                            </li>
+                        </ul>
                         {{ $header }}
                     </div>
                 </header>

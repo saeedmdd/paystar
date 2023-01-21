@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string("number");
-            $table->timestamp("verified_at");
             $table->timestamps();
         });
     }

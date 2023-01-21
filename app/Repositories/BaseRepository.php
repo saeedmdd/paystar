@@ -18,9 +18,16 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @param array|string $relations
      * @return Builder
      */
-    protected function setBuilder(array|string $relations = []): Builder
+    protected function setBuilder(array|string $relations = [], array $conditions = []): Builder
     {
-        return $this->model->with($relations);
+        return $conditions == [] ?
+            $this->model->with($relations) :
+            $this->model->with($relations)
+                ->where(function ($builder) use ($conditions){
+                    foreach ($conditions as $index => $condition) {
+                        $builder->where($index, $condition);
+                     }
+                }) ;
     }
 
     /**
@@ -28,9 +35,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @param array|string $relations
      * @return Collection
      */
-    public function getAll(array|string $columns = ["*"], array|string $relations = []): Collection
+    public function getAll(array|string $columns = ["*"], array|string $relations = [], array $conditions = []): Collection
     {
-        return $this->setBuilder($relations)->get($columns);
+        return $this->setBuilder($relations, $conditions)->get($columns);
     }
 
     /**
@@ -83,9 +90,14 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @param int|null $page
      * @return LengthAwarePaginator
      */
-    public function paginate(array|string $columns = ["*"], array|string $relations = [], int $paginate = 15, string $pageName = 'page', int|null $page = null, string $orderedColumn = null, string $direction = "asc"): LengthAwarePaginator
+    public function paginate(array|string $columns = ["*"], array|string $relations = [], int $paginate = 15, string $pageName = 'page', int|null $page = null, string $orderedColumn = null, string $direction = "asc", array $conditions = []): LengthAwarePaginator
     {
-        $builder = $this->setBuilder($relations);
+        $builder = $this->setBuilder($relations, $conditions);
         return !is_null($orderedColumn) ? $builder->orderBy($orderedColumn, $direction)->paginate($paginate, $columns, $pageName, $page) : $builder->paginate($paginate, $columns, $pageName, $page);
+    }
+
+    public function findByColumns(array $conditions, array|string $columns = ["*"], array|string $relations = [], array|string $appends = []): ?Model
+    {
+        return $this->setBuilder($relations, $conditions)->first($columns)?->append($appends);
     }
 }

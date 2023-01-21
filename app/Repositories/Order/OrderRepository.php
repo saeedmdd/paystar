@@ -40,9 +40,9 @@ class OrderRepository extends BaseRepository
      * @param string $direction
      * @return LengthAwarePaginator
      */
-    public function userPaginate(array|string $columns = ["*"], array|string $relations = [], int $paginate = 15, string $pageName = 'page', int|null $page = null, string $orderedColumn = null, string $direction = "asc"): LengthAwarePaginator
+    public function userPaginate(array|string $columns = ["*"], array|string $relations = [], int $paginate = 15, string $pageName = 'page', int|null $page = null, string $orderedColumn = null, string $direction = "asc", array $conditions = []): LengthAwarePaginator
     {
-        $builder = $this->setBuilder($relations)->where("user_id", auth()->id());
+        $builder = $this->setBuilder($relations, $conditions)->where("user_id", auth()->id());
         return !is_null($orderedColumn) ? $builder->orderBy($orderedColumn, $direction)->paginate($paginate, $columns, $pageName, $page) : $builder->paginate($paginate, $columns, $pageName, $page);
 
     }
